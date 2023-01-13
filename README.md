@@ -17,8 +17,18 @@ samples, guidance on mobile development, and a full API reference.
 
 
 ![My Image](img/all.jpg)
+All task page
+
+
 ![My Image](img/done.jpg)
+
+done task page
 ![My Image](img/add.jpg)
+
+add task page
+
+
 ![My Image](img/archive.jpg)
+archive task page
 
 
