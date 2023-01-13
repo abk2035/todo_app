@@ -51,7 +51,7 @@ class TodoCubit extends Cubit<TodoStates> {
     emit(GetBoxState());
   }
 
-   addTodo(TodoModel todoModel) async {
+  addTodo(TodoModel todoModel) async {
     await Hive.openBox<TodoModel>('todos')
         .then((value) => value.add(todoModel))
         .then(

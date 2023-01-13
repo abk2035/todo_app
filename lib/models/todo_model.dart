@@ -6,13 +6,13 @@ part 'todo_model.g.dart';
 class TodoModel {
   @HiveField(0)
   final String title;
-   @HiveField(1)
+  @HiveField(1)
   final String description;
-   @HiveField(3)
+  @HiveField(3)
   final DateTime date;
-   @HiveField(4)
+  @HiveField(4)
   final bool isDone;
-   @HiveField(5)
+  @HiveField(5)
   final bool isArchived;
 
   TodoModel(
@@ -30,5 +30,15 @@ class TodoModel {
       'isDone': isDone,
       'isArchived': isArchived,
     };
+  }
+
+  factory TodoModel.fromJson(Map<String, dynamic> json) {
+    return TodoModel(
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      date: DateTime.fromMillisecondsSinceEpoch(json['date']),
+      isDone: json['isDone'] ?? false,
+      isArchived: json['isArchived'] ?? false,
+    );
   }
 }

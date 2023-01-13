@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.pop(context);
                           cubit.clearController();
                         },
-                        child: const Text('Cancle')),
+                        child: const Text('Cancel')),
                     const SizedBox(
                       height: 20,
                     ),
