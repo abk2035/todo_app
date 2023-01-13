@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/cubit/todo_cubit.dart';
 import 'package:todo_app/cubit/todo_states.dart';
+import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/screens/all_todo_screen.dart';
 import 'package:todo_app/screens/archives_screen.dart';
 import 'package:todo_app/screens/done_screen.dart';
@@ -48,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                   label: 'Done',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.book),
+                  icon: Icon(Icons.archive),
                   label: 'Archived',
                 ),
               ],
@@ -75,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'hey  dont leave it empty';
+                                return "hey  don't leave it empty";
                               } else {
                                 return null;
                               }
@@ -88,12 +90,12 @@ class HomeScreen extends StatelessWidget {
                             controller: cubit.descriptionController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Discription',
-                              hintText: 'Enter Discription',
+                              labelText: "Description",
+                              hintText: 'Enter Description',
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'hey dont leave it empty';
+                                return "hey don't leave it empty";
                               } else {
                                 return null;
                               }
@@ -102,20 +104,56 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(
                             height: 14,
                           ),
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  maximumSize: Size.infinite),
+                              onPressed: () {
+                                cubit.setDate(context);
+                              },
+                              icon: const Icon(Icons.date_range),
+                              label: Text(
+                                // Formatted Date
+                                DateFormat.yMMMEd()
+
+                                    // displaying formatted date
+                                    .format(cubit.initalDate),
+                              )),
                         ],
                       ),
                     );
                   }),
                   actions: [
-                           TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            cubit.clearController();
-                          },
-                          child: const Text('Cancle')),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          cubit.clearController();
+                        },
+                        child: const Text('Cancle')),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.add),
+                      label: const Text('Add'),
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          cubit.addTodo(TodoModel(
+                            title: cubit.titleController.text,
+                            description: cubit.descriptionController.text,
+                            date: cubit.initalDate,
+                            isDone: false,
+                            isArchived: false,
+                          ));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text('${cubit.titleController.text} added'),
+                            backgroundColor: Colors.green,
+                          ));
+                          Navigator.pop(context);
+                          cubit.clearController();
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
